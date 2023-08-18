@@ -1,81 +1,83 @@
-const generarCartaAleatoria = (): number => Math.floor(Math.random() * 10);
+let puntosTotales = 0;
+const generarNumeroAleatorio = (): number => Math.floor(Math.random() * 10);
+const generarCarta = (numeroAleatorio: number): number => {
+   return numeroAleatorio > 7 ? numeroAleatorio +2 : numeroAleatorio;
+}
 
-const cartarParaAcertar: number = generarCartaAleatoria();
-
-type Estado = 
-
-"GAME_OVER_MAXIMA_PUNTUACION"
-"MENOR_CUATRO"
-"ENTRE_CUATRO_y_SEIS"
-"ENTRE_SEIS_Y_SIETE"
-"SIETE_Y_MEDIA";
+const pedirCarta = () => {
+const numeroAleatorio = generarNumeroAleatorio();
+const carta = generarCarta(numeroAleatorio);
+mostrarImagen(carta);
+const puntos = obtenerPuntos(carta);
+puntosTotales = puntosTotales + puntos;
+mostrarMensaje(`${puntosTotales}`);
 
 
-const GAME_OVER_MAXIMA_PUNTUACION = 7.5;
+}
 
-/* Mostrar puntuacion */
-
-const MAXIMA_PUNTUACION: number = 7.5;
-let Puntuacion : number = 0
-
-const hasSuperadoLaPuntuacion = () : boolean =>
-    Puntuacion >= MAXIMA_PUNTUACION;
-
-const muestraPuntuacion = () => {
-    const elementoResultado = document.getElementById("resultado");
-
-    if(elementoResultado) {
-        elementoResultado.innerHTML = `${Puntuacion}`;
-    }else {
-        console.error (
-            "muestraPuntuacion: No se ha encontrado el elemento con id Puntuacion"
-        );
-    }
-};
-
-document.addEventListener("DOMContentLoaded", muestraPuntuacion);
-
-/* Si te pasa de puntuacion Game over */
-
-const gestionarGameOver = (estado: Estado) => {
-    if (estado === "GAME_OVER_MAXIMA_PUNTUACION"){
-        const elementoComprobar = document.getElementById ("comprobar");
-        if(elementoComprobar && elementoComprobar instanceof HTMLButtonElement)
-        elementoComprobar.disabled = true;
-    } else {
-        "gestionarGameOver: No se ha encontrado el elemento con id Comprobar"
-    };
-
-};
-
-const muestraMensajeComprobacion = (texto: string, estado: Estado) => {
-    let mensaje : string ="";
-    switch (estado) {
-        case "MENOR_CUATRO":
-            mensaje = `Has sido muy conservador`;
-            break;
-        case "ENTRE_CUATRO_Y_SEIS":
-            mensaje = `Te ha entrado el canguelo eh?`
-            break;
-        case "ENTRE_SEIS_Y_SIETE":  
-            mensaje =  `"Casi casí..`
-            break;
-        case "SIETE_Y_MEDIA":  
-            mensaje = `¡Lo has clavado! ¡Enohorabuena!`
-            break;
-        case "GAME_OVER_MAXIMA_PUNTUACION":
-            mensaje = `Te has pasado. Game Over`
-            break;
-    }
-
-    const elementoRestultado = document.getElementById("resultado");
-    if(elementoRestultado) {
-        elementoRestultado.innerHTML = mensaje;
-    }else {
-        console.error (
-            "muestraMensajeComprobacion: No se ha encontrado el elemento con id resultado"
-        )
-
+const obtenerUrlCarta = (Carta: number): string => {
+    switch (Carta){
+        case 1: 
+        return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg";
+        case 2: 
+        return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg";
+        case 3: 
+        return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/3_tres-copas.jpg";
+        case 4: 
+        return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/4_cuatro-copas.jpg";
+        case 5: 
+        return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/5_cinco-copas.jpg";
+        case 6: 
+        return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/6_seis-copas.jpg";
+        case 7: 
+        return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/7_siete-copas.jpg";
+        case 10: 
+        return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/10_sota-copas.jpg";
+        case 11: 
+        return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/11_caballo-copas.jpg";
+        case 12: 
+        return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/12_rey-copas.jpg";
+        default: 
+        return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg";
     }
 }
 
+const mostrarImagen = (carta: number) => {
+const imagenCarta= document.getElementById("urlcarta");
+    if(imagenCarta !== null && imagenCarta !== undefined && imagenCarta instanceof HTMLImageElement){
+    const urlcarta = obtenerUrlCarta(carta);
+    imagenCarta.src = urlcarta 
+    }
+}
+
+const obtenerPuntos = (carta: number): number => {
+    return carta > 7 ? 0.5 : carta;
+}
+
+const mostrarMensaje = (mensaje: string) => {
+const divResultado= document.getElementById("resultado");    
+    if(divResultado !== null && divResultado !== undefined && divResultado instanceof HTMLDivElement){
+        divResultado.textContent = mensaje;
+    }
+}
+
+const comprobarPartida = (puntosTotales: number) => {
+    if(puntosTotales === 7.5){
+        const divResultado= document.getElementById("resultado");    
+        if(divResultado !== null && divResultado !== undefined && divResultado instanceof HTMLDivElement){
+        divResultado.textContent = "Has ganado";
+        }
+    } if (puntosTotales > 7.5){
+            const botonPedirCarta = document.getElementById("pedircarta");
+            if(botonPedirCarta && botonPedirCarta instanceof HTMLButtonElement){
+                botonPedirCarta.disabled = true;
+            }
+        }
+}
+        
+ 
+
+const botonPedirCarta = document.getElementById("pedircarta")
+    if (botonPedirCarta !== null && botonPedirCarta !== undefined && botonPedirCarta instanceof HTMLButtonElement){
+     botonPedirCarta.addEventListener("click", pedirCarta)   
+    }
