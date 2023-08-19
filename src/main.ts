@@ -11,8 +11,7 @@ mostrarImagen(carta);
 const puntos = obtenerPuntos(carta);
 puntosTotales = puntosTotales + puntos;
 mostrarMensaje(`${puntosTotales}`);
-
-
+comprobarPartida(puntosTotales);
 }
 
 const obtenerUrlCarta = (Carta: number): string => {
@@ -42,16 +41,16 @@ const obtenerUrlCarta = (Carta: number): string => {
     }
 }
 
-const mostrarImagen = (carta: number) => {
+const mostrarImagen = (Carta: number) => {
 const imagenCarta= document.getElementById("urlcarta");
     if(imagenCarta !== null && imagenCarta !== undefined && imagenCarta instanceof HTMLImageElement){
-    const urlcarta = obtenerUrlCarta(carta);
+    const urlcarta = obtenerUrlCarta(Carta);
     imagenCarta.src = urlcarta 
     }
 }
 
-const obtenerPuntos = (carta: number): number => {
-    return carta > 7 ? 0.5 : carta;
+const obtenerPuntos = (Carta: number): number => {
+    return Carta > 7 ? 0.5 : Carta;
 }
 
 const mostrarMensaje = (mensaje: string) => {
@@ -72,12 +71,72 @@ const comprobarPartida = (puntosTotales: number) => {
             if(botonPedirCarta && botonPedirCarta instanceof HTMLButtonElement){
                 botonPedirCarta.disabled = true;
             }
+            const divResultado= document.getElementById("resultado");    
+            if(divResultado !== null && divResultado !== undefined && divResultado instanceof HTMLDivElement){
+                divResultado.textContent = "Has perdido";
         }
+    }
 }
         
- 
-
 const botonPedirCarta = document.getElementById("pedircarta")
     if (botonPedirCarta !== null && botonPedirCarta !== undefined && botonPedirCarta instanceof HTMLButtonElement){
      botonPedirCarta.addEventListener("click", pedirCarta)   
     }
+
+const nuevaPartida = () => {
+    puntosTotales = 0;
+    mostrarMensaje(`${puntosTotales}`);
+    const botonPedirCarta = document.getElementById("pedircarta");
+            if(botonPedirCarta && botonPedirCarta instanceof HTMLButtonElement){
+                botonPedirCarta.disabled = false;
+            }
+    
+    const imagenCarta= document.getElementById("urlcarta");
+                if(imagenCarta !== null && imagenCarta !== undefined && imagenCarta instanceof HTMLImageElement){
+                const urlcarta = "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg";
+                imagenCarta.src = urlcarta 
+                }
+    }
+       
+const botonNuevaPartida = document.getElementById("nuevapartida")
+    if (botonNuevaPartida !== null && botonNuevaPartida !== undefined && botonNuevaPartida instanceof HTMLButtonElement){
+     botonNuevaPartida.addEventListener("click", nuevaPartida)   
+    }    
+
+const meRindo = () => {
+    mostrarMensaje(`${puntosTotales}`);
+    const botonPedirCarta = document.getElementById("pedircarta");
+            if(botonPedirCarta && botonPedirCarta instanceof HTMLButtonElement){
+                botonPedirCarta.disabled = true;
+            }
+    opcionPuntos(puntosTotales);        
+}
+
+const opcionPuntos = (puntosTotales: number) => {
+    if(puntosTotales < 4 ){
+        const divResultado= document.getElementById("resultado");    
+        if(divResultado !== null && divResultado !== undefined && divResultado instanceof HTMLDivElement){
+        divResultado.textContent = "Has sido muy conservador";
+        }
+    } if(puntosTotales = 5 ){
+        const divResultado= document.getElementById("resultado");    
+        if(divResultado !== null && divResultado !== undefined && divResultado instanceof HTMLDivElement){
+        divResultado.textContent = "Te ha entrado el canguelo eh?";
+        }
+    } if(puntosTotales >= 6 && puntosTotales <= 7 ){
+        const divResultado= document.getElementById("resultado");    
+        if(divResultado !== null && divResultado !== undefined && divResultado instanceof HTMLDivElement){
+        divResultado.textContent = "Casi casi...";
+        }
+    } if(puntosTotales = 7.5 ){
+        const divResultado= document.getElementById("resultado");    
+        if(divResultado !== null && divResultado !== undefined && divResultado instanceof HTMLDivElement){
+        divResultado.textContent = "¡ Lo has clavado! ¡Enhorabuena!";
+        }
+    }
+}
+
+const botonMeRindo = document.getElementById("rendir")
+    if (botonMeRindo !== null && botonMeRindo !== undefined && botonMeRindo instanceof HTMLButtonElement){
+     botonMeRindo.addEventListener("click", meRindo)   
+    } 
