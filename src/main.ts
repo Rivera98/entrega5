@@ -105,11 +105,12 @@ const botonNuevaPartida = document.getElementById("nuevapartida")
 
 const meRindo = () => {
     mostrarMensaje(`${puntosTotales}`);
+    opcionPuntos(puntosTotales);  
     const botonPedirCarta = document.getElementById("pedircarta");
             if(botonPedirCarta && botonPedirCarta instanceof HTMLButtonElement){
                 botonPedirCarta.disabled = true;
             }
-    opcionPuntos(puntosTotales);        
+          
 }
 
 const opcionPuntos = (puntosTotales: number) => {
@@ -118,17 +119,17 @@ const opcionPuntos = (puntosTotales: number) => {
         if(divResultado !== null && divResultado !== undefined && divResultado instanceof HTMLDivElement){
         divResultado.textContent = "Has sido muy conservador";
         }
-    } if(puntosTotales = 5 ){
+    } else if(puntosTotales = 5 ){
         const divResultado= document.getElementById("resultado");    
         if(divResultado !== null && divResultado !== undefined && divResultado instanceof HTMLDivElement){
         divResultado.textContent = "Te ha entrado el canguelo eh?";
         }
-    } if(puntosTotales >= 6 && puntosTotales <= 7 ){
+    } else if(puntosTotales >= 6 && puntosTotales <= 7 ){
         const divResultado= document.getElementById("resultado");    
         if(divResultado !== null && divResultado !== undefined && divResultado instanceof HTMLDivElement){
         divResultado.textContent = "Casi casi...";
         }
-    } if(puntosTotales = 7.5 ){
+    }else if(puntosTotales = 7.5 ){
         const divResultado= document.getElementById("resultado");    
         if(divResultado !== null && divResultado !== undefined && divResultado instanceof HTMLDivElement){
         divResultado.textContent = "¡ Lo has clavado! ¡Enhorabuena!";
