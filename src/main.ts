@@ -57,27 +57,27 @@ const mostrarMensaje = (mensaje: string) => {
 const divResultado= document.getElementById("resultado");    
     if(divResultado !== null && divResultado !== undefined && divResultado instanceof HTMLDivElement){
         divResultado.textContent = mensaje;
-    }
+    } 
 }
 
 const comprobarPartida = (puntosTotales: number) => {
     if(puntosTotales === 7.5){
-        const divResultado= document.getElementById("resultado");    
-        if(divResultado !== null && divResultado !== undefined && divResultado instanceof HTMLDivElement){
-        divResultado.textContent = "Has ganado";
-        }
+        mostrarMensaje ("Has Ganado")
+        deshabilitarBotonPedirCarta (true)
+
     } if (puntosTotales > 7.5){
-            const botonPedirCarta = document.getElementById("pedircarta");
-            if(botonPedirCarta && botonPedirCarta instanceof HTMLButtonElement){
-                botonPedirCarta.disabled = true;
-            }
-            const divResultado= document.getElementById("resultado");    
-            if(divResultado !== null && divResultado !== undefined && divResultado instanceof HTMLDivElement){
-                divResultado.textContent = "Has perdido";
+            deshabilitarBotonPedirCarta (true);
+            mostrarMensaje ("Has perdido")
         }
     }
+const deshabilitarBotonPedirCarta = (estadeshabilitado: boolean) => {
+    const botonPedirCarta = document.getElementById("pedircarta");
+            if(botonPedirCarta && botonPedirCarta instanceof HTMLButtonElement){
+                botonPedirCarta.disabled = estadeshabilitado;
+            }
 }
-        
+
+
 const botonPedirCarta = document.getElementById("pedircarta")
     if (botonPedirCarta !== null && botonPedirCarta !== undefined && botonPedirCarta instanceof HTMLButtonElement){
      botonPedirCarta.addEventListener("click", pedirCarta)   
@@ -105,7 +105,7 @@ const botonNuevaPartida = document.getElementById("nuevapartida")
 
 const meRindo = () => {
     mostrarMensaje(`${puntosTotales}`);
-    opcionPuntos(puntosTotales);  
+    opcionPuntos(puntosTotales); 
     const botonPedirCarta = document.getElementById("pedircarta");
             if(botonPedirCarta && botonPedirCarta instanceof HTMLButtonElement){
                 botonPedirCarta.disabled = true;
@@ -114,26 +114,14 @@ const meRindo = () => {
 }
 
 const opcionPuntos = (puntosTotales: number) => {
-    if(puntosTotales < 4 ){
-        const divResultado= document.getElementById("resultado");    
-        if(divResultado !== null && divResultado !== undefined && divResultado instanceof HTMLDivElement){
-        divResultado.textContent = "Has sido muy conservador";
-        }
-    } else if(puntosTotales = 5 ){
-        const divResultado= document.getElementById("resultado");    
-        if(divResultado !== null && divResultado !== undefined && divResultado instanceof HTMLDivElement){
-        divResultado.textContent = "Te ha entrado el canguelo eh?";
-        }
+    if(puntosTotales <= 4.5 ){
+        mostrarMensaje ("Has sido muy conservador");
+    } else if(puntosTotales <= 5.5){
+        mostrarMensaje ("Te ha entrado el canguelo eh?");
     } else if(puntosTotales >= 6 && puntosTotales <= 7 ){
-        const divResultado= document.getElementById("resultado");    
-        if(divResultado !== null && divResultado !== undefined && divResultado instanceof HTMLDivElement){
-        divResultado.textContent = "Casi casi...";
-        }
-    }else if(puntosTotales = 7.5 ){
-        const divResultado= document.getElementById("resultado");    
-        if(divResultado !== null && divResultado !== undefined && divResultado instanceof HTMLDivElement){
-        divResultado.textContent = "¡ Lo has clavado! ¡Enhorabuena!";
-        }
+        mostrarMensaje ("Casi casi...");
+    }else if(puntosTotales === 7.5 ){
+        mostrarMensaje("¡ Lo has clavado! ¡Enhorabuena!");
     }
 }
 
@@ -141,3 +129,18 @@ const botonMeRindo = document.getElementById("rendir")
     if (botonMeRindo !== null && botonMeRindo !== undefined && botonMeRindo instanceof HTMLButtonElement){
      botonMeRindo.addEventListener("click", meRindo)   
     } 
+
+const quePasaria = () => {
+    const numeroAleatorio = generarNumeroAleatorio();
+    const carta = generarCarta(numeroAleatorio);
+    mostrarImagen(carta);
+    const puntos = obtenerPuntos(carta);
+    puntosTotales = puntosTotales + puntos;
+    mostrarMensaje(`${puntosTotales}`);
+    comprobarPartida(puntosTotales);
+}
+
+const botonQuePasaria = document.getElementById("pasar")
+    if (botonQuePasaria !== null && botonQuePasaria !== undefined && botonQuePasaria instanceof HTMLButtonElement){
+     botonQuePasaria.addEventListener("click", quePasaria)   
+    }     
